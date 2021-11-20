@@ -4,4 +4,10 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        main.cpp
+        consoleutilities.cpp \
+        main.cpp \
+        menu.cpp
+
+HEADERS += \
+    consoleutilities.h \
+    menu.h
