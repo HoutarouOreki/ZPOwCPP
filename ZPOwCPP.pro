@@ -1,4 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    ZPOwCPP.Main/ZPOwCPP.Main.pro
+    ZPOwCPP_Main/ZPOwCPP_Main.pro \
+    ZPOwCPP_Tests

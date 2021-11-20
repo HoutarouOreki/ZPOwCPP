@@ -1,7 +1,7 @@
 #include "consoleutilities.h"
 #include <iostream>
 
-int consoleUtilities::readInt(const std::string& promptText = "")
+int consoleUtilities::readInt(const std::string& promptText)
 {
     std::string rawInput;
     int input;
@@ -25,7 +25,7 @@ int consoleUtilities::readInt(const std::string& promptText = "")
     }
 }
 
-std::string consoleUtilities::readLine(const std::string& promptText = "")
+std::string consoleUtilities::readLine(const std::string& promptText)
 {
     if (promptText.length() > 0) {
         std::cout << promptText << std::endl;
@@ -36,7 +36,7 @@ std::string consoleUtilities::readLine(const std::string& promptText = "")
     return input;
 }
 
-int consoleUtilities::readIntMinMax(const int &min, const int &max, const std::string &promptText = "")
+int consoleUtilities::readIntMinMax(const int &min, const int &max, const std::string &promptText)
 {
     int value;
     do {
