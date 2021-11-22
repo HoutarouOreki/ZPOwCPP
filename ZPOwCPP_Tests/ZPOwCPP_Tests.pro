@@ -8,5 +8,5 @@ CONFIG += thread
 CONFIG -= qt
 
 SOURCES += \
-        main.cpp         \
-        menu_tests.cpp
+        MenuTests.cpp \
+        main.cpp

@@ -31,7 +31,7 @@ public:
     /// \brief Dodaje nową opcję do menu.
     /// \param[in] function Funkcja, która zostanie uruchomiona
     /// po wybraniu tej opcji.
-    void addOption(const std::string title, void ( *function)());
+    void addOption(const std::string& title, void ( *function)());
 
     /// \brief Uruchamia menu - wyświetla dostępne opcje
     /// a następnie czeka na wybór użytkownika i uruchamia
