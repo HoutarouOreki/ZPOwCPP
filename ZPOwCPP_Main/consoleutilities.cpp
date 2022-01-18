@@ -32,6 +32,7 @@ std::string consoleUtilities::readLine(const std::string& promptText)
     }
     std::cout << ">";
     std::string input;
+    std::cin.ignore();
     getline(std::cin, input);
     return input;
 }

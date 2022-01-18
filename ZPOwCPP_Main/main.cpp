@@ -1,13 +1,70 @@
 #include <iostream>
+#include <fstream>
 #include "menu.h"
+#include "consoleutilities.h"
+#include "csvparser.h"
+#include "algorytmy.h"
 
 using namespace std;
 
+vector<vector<string>> wierszeKomorek;
+
 /// \brief Punkt 1
-void wczytajPlik(){}
+void wczytajPlik()
+{
+    string sciezka;
+    ifstream plikReader;
+    while (true)
+    {
+        sciezka = consoleUtilities::readLine("Podaj sciezke do pliku csv");
+        plikReader.open(sciezka);
+
+        if (!plikReader.is_open())
+        {
+            cout << "Nie mozna odczytac pliku." << endl;
+            continue;
+        }
+
+        break;
+    }
+
+    CsvParser csvParser(",");
+    while (!plikReader.eof())
+    {
+        string linia;
+        getline(plikReader, linia);
+        wierszeKomorek.push_back(csvParser.parseLine(linia));
+    }
+
+    cout << "Wczytano " << wierszeKomorek.size() << " wierszy" << endl;
+}
 
 /// \brief Punkt 2
-void parametryStatystyczne(){}
+void parametryStatystyczne()
+{
+    const int iloscKolumn = 6;
+
+    vector<vector<double>> wierszeKomorekDouble;
+
+    vector<double> sumy{0, 0, 0, 0, 0, 0};
+    for (unsigned int nrWierszu = 1; nrWierszu < wierszeKomorek.size(); nrWierszu++)
+    {
+        auto wiersz = wierszeKomorek[nrWierszu];
+        wierszeKomorekDouble.push_back(vector<double>());
+        for (unsigned int nrKolumny = 0; nrKolumny < iloscKolumn; nrKolumny++)
+        {
+            auto liczba = stod(wiersz[nrKolumny]);
+            sumy[nrKolumny] += liczba;
+            wierszeKomorekDouble.back().push_back(liczba);
+        }
+    }
+
+    int iloscWierszy = wierszeKomorek.size() - 1;
+
+    auto srednie = Algorytmy::srednie(sumy, iloscWierszy);
+    auto mediany = Algorytmy::mediany(wierszeKomorekDouble);
+    // todo tests
+}
 
 /// \brief Punkt 3
 void odbiegajaceZ2(){}
