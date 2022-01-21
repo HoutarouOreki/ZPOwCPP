@@ -1,28 +1,30 @@
 #include "algorytmy.h"
 #include <algorithm>
+#include <string>
+#include <math.h>
 
 std::vector<double> Algorytmy::srednie(const std::vector<double> &sumy, const int iloscWierszy)
 {
     std::vector<double> srednie;
-    transform(sumy.begin(), sumy.end(), srednie.begin(), [iloscWierszy](double suma)
+    for (auto &suma : sumy)
     {
-        return suma / iloscWierszy;
-    });
+        srednie.emplace_back(suma / iloscWierszy);
+    }
     return srednie;
 }
+
 std::vector<double> Algorytmy::mediany(const std::vector<std::vector<double>> &wejscie)
 {
     std::vector<double> mediany;
     if (wejscie.size() % 2 == 1)
     {
-        auto srodkowyWiersz = wejscie[(wejscie.size() / 2)];
-        transform(srodkowyWiersz.begin(), srodkowyWiersz.end(), mediany.begin(),
-                  [](std::string liczba){return stod(liczba);});
+        mediany = wejscie[(wejscie.size() / 2)];
     }
     else
     {
-        auto wiersz1 = wejscie[1 + (wejscie.size() / 2)];
-        auto wiersz2 = wejscie[1 + (wejscie.size() / 2) + 1];
+        auto wiersz1 = wejscie[(wejscie.size() / 2) - 1];
+        mediany.resize(wiersz1.size(), 0);
+        auto wiersz2 = wejscie[(wejscie.size() / 2)];
         transform(wiersz1.begin(), wiersz1.end(), wiersz2.begin(), mediany.begin(),
                   [](double a, double b)
         {
@@ -30,4 +32,30 @@ std::vector<double> Algorytmy::mediany(const std::vector<std::vector<double>> &w
         });
     }
     return mediany;
+}
+
+
+
+std::vector<double> Algorytmy::odchyleniaStandardowe(const std::vector<std::vector<double> > &wejscie, const std::vector<double> &srednie)
+{
+    std::vector<double> sumy;
+    sumy.resize(srednie.size(), 0);
+    for (unsigned int nrWiersza = 0; nrWiersza < wejscie.size(); nrWiersza++)
+    {
+        auto wiersz = wejscie[nrWiersza];
+        for (unsigned int nrKolumny = 0; nrKolumny < wiersz.size(); nrKolumny++)
+        {
+            auto nawias = wiersz[nrKolumny] - srednie[nrKolumny];
+            sumy[nrKolumny] += nawias * nawias;
+        }
+    }
+
+    auto n = wejscie.size();
+    std::vector<double> odchyleniaStandardowe;
+    for (auto &suma : sumy)
+    {
+        odchyleniaStandardowe.emplace_back(std::sqrt(suma / (n - 1)));
+    }
+
+    return odchyleniaStandardowe;
 }

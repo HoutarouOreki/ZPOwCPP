@@ -8,6 +8,7 @@ CONFIG += thread
 CONFIG -= qt
 
 SOURCES += \
+        AlgorytmyTests.cpp \
         CsvParserTests.cpp \
         MenuTests.cpp \
         main.cpp
