@@ -8,10 +8,12 @@ SOURCES += \
         consoleutilities.cpp \
         csvparser.cpp \
         main.cpp \
-        menu.cpp
+        menu.cpp \
+        zadania.cpp
 
 HEADERS += \
     algorytmy.h \
     consoleutilities.h \
     csvparser.h \
-    menu.h
+    menu.h \
+    zadania.h
