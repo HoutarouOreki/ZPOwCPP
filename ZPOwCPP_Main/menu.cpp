@@ -12,7 +12,7 @@ void Menu::setExitOptionText(const std::string &newExitOptionText)
     exitOptionText = newExitOptionText;
 }
 
-void Menu::addOption(const std::string &title, void (*function)())
+void Menu::addOption(const std::string &title, const std::function<void()> &function)
 {
     options.push_back(option(title, function));
 }
@@ -60,7 +60,7 @@ void Menu::run() const
     }
 }
 
-Menu::option::option(const std::string &title, void (*&function)())
+Menu::option::option(const std::string &title, const std::function<void()> &function)
 {
     this->title = title;
     this->function = function;

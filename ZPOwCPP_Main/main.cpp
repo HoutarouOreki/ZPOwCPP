@@ -7,10 +7,8 @@
 
 using namespace std;
 
-vector<vector<string>> wierszeKomorek;
-
 /// \brief Punkt 1
-void wczytajPlik()
+void wczytajPlik(vector<vector<string>> &wierszeKomorek)
 {
     string sciezka;
     ifstream plikReader;
@@ -40,7 +38,7 @@ void wczytajPlik()
 }
 
 /// \brief Punkt 2
-void parametryStatystyczne()
+void parametryStatystyczne(const vector<vector<string>> &wierszeKomorek)
 {
     const int iloscKolumn = 6;
 
@@ -67,20 +65,21 @@ void parametryStatystyczne()
 }
 
 /// \brief Punkt 3
-void odbiegajaceZ2(){}
+void odbiegajaceZ2(const vector<vector<string>> &wierszeKomorek){}
 
 /// \brief Punkt 4
-void korelacjaKrzyzowa(){}
+void korelacjaKrzyzowa(const vector<vector<string>> &wierszeKomorek){}
 
 int main()
 {
+    vector<vector<string>> wierszeKomorek;
     Menu menu("Wybierz odpowiednia funkcje:");
-    menu.addOption("Wczytaj plik do pamieci", wczytajPlik);
-    menu.addOption("Oblicz parametry statystyczne", parametryStatystyczne);
+    menu.addOption("Wczytaj plik do pamieci", [&wierszeKomorek]() {wczytajPlik(wierszeKomorek);});
+    menu.addOption("Oblicz parametry statystyczne", [&wierszeKomorek]() {parametryStatystyczne(wierszeKomorek);});
     menu.addOption("Znalezienie i wyswietlenie wierszy, "
                    "w ktorych wartosc w kolumnie Z2 odbiega "
-                   "od sredniej wartosci o podana wartosc", odbiegajaceZ2);
-    menu.addOption("Obliczenie wartosci korelacji krzyzowej", korelacjaKrzyzowa);
+                   "od sredniej wartosci o podana wartosc", [&wierszeKomorek]() {odbiegajaceZ2(wierszeKomorek);});
+    menu.addOption("Obliczenie wartosci korelacji krzyzowej", [&wierszeKomorek]() {korelacjaKrzyzowa(wierszeKomorek);});
     menu.run();
     return 0;
 }

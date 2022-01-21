@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <functional>
 
 ///
 /// \brief Klasa reprezentująca menu wyboru opcji.
@@ -13,9 +14,9 @@ private:
     struct option
     {
         std::string title;
-        void (*function)();
+        std::function<void()> function;
 
-        option(const std::string& title, void (*&function)());
+        option(const std::string& title, const std::function<void()> &function);
     };
     std::vector<option> options;
     std::string promptText;
@@ -31,7 +32,7 @@ public:
     /// \brief Dodaje nową opcję do menu.
     /// \param[in] function Funkcja, która zostanie uruchomiona
     /// po wybraniu tej opcji.
-    void addOption(const std::string& title, void ( *function)());
+    void addOption(const std::string& title, const std::function<void()> &function);
 
     /// \brief Uruchamia menu - wyświetla dostępne opcje
     /// a następnie czeka na wybór użytkownika i uruchamia
