@@ -32,7 +32,7 @@ std::string consoleUtilities::readLine(const std::string& promptText)
     }
     std::cout << ">";
     std::string input;
-    std::cin.ignore();
+    if (std::iswspace(std::cin.peek())) std::cin.ignore();
     getline(std::cin, input);
     return input;
 }
@@ -48,4 +48,18 @@ int consoleUtilities::readIntMinMax(const int &min, const int &max, const std::s
         }
     } while (value < min || value > max);
     return value;
+}
+
+std::string consoleUtilities::subOrOverString(const double d, const unsigned int n)
+{
+    auto s = std::to_string(d);
+    if (s.size() == n)
+    {
+        return s;
+    }
+    if (s.size() < n)
+    {
+        return std::string(n - s.size(), ' ') + s;
+    }
+    return s.substr(0, n);
 }

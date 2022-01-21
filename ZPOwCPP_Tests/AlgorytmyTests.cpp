@@ -25,10 +25,25 @@ TEST(AlgorytmyTests, mediany2)
     auto liczby = std::vector<std::vector<double>>
     {
         {1, 2, 3},
-        {4, 5, 6},
-        {7, 8, 9}
+        {7, 8, 9},
+        {4, 5, 6}
     };
     EXPECT_EQ((std::vector<double>{4, 5, 6}), Algorytmy::mediany(liczby));
+}
+
+TEST(AlgorytmyTests, mediany3)
+{
+    std::vector<std::vector<double>> liczby {
+        {1, 2, 3},
+        {42, 4, 5},
+        {7, 8, 9},
+        {6, 12, 11}
+    };
+    std::vector<double> oczekiwaneMediany
+    {
+        (6 + 7) / 2.0, (4 + 8) / 2.0, (5 + 9) / 2.0
+    };
+    EXPECT_EQ(oczekiwaneMediany, Algorytmy::mediany(liczby));
 }
 
 TEST(AlgorytmyTests, odchyleniaStandardowe)

@@ -13,18 +13,41 @@ std::vector<double> Algorytmy::srednie(const std::vector<double> &sumy, const in
     return srednie;
 }
 
+std::vector<std::vector<double>> transponuj(const std::vector<std::vector<double>> &wejscie)
+{
+    std::vector<std::vector<double>> wyjscie(wejscie[0].size());
+    for (unsigned int nrWierszu = 0; nrWierszu < wejscie.size(); nrWierszu++)
+    {
+        auto wiersz = wejscie[nrWierszu];
+        for (unsigned int nrKolumny = 0; nrKolumny < wiersz.size(); nrKolumny++)
+        {
+            wyjscie[nrKolumny].push_back(wiersz[nrKolumny]);
+        }
+    }
+    return wyjscie;
+}
+
 std::vector<double> Algorytmy::mediany(const std::vector<std::vector<double>> &wejscie)
 {
-    std::vector<double> mediany;
-    if (wejscie.size() % 2 == 1)
+    auto wejscieTransponowane = transponuj(wejscie);
+    for (auto &kolumna : wejscieTransponowane)
     {
-        mediany = wejscie[(wejscie.size() / 2)];
+        sort(kolumna.begin(), kolumna.end(), std::greater<double>());
+    }
+    auto wejsciePosortowane = transponuj(wejscieTransponowane);
+    // transpozycja dwa razy być może nie jest najefektywniejszą metodą
+    // uzyskania posortowanych kolumn, ale nie płacą mi za to, więc...
+
+    std::vector<double> mediany;
+    if (wejsciePosortowane.size() % 2 == 1)
+    {
+        mediany = wejsciePosortowane[(wejsciePosortowane.size() / 2)];
     }
     else
     {
-        auto wiersz1 = wejscie[(wejscie.size() / 2) - 1];
+        auto wiersz1 = wejsciePosortowane[(wejsciePosortowane.size() / 2) - 1];
         mediany.resize(wiersz1.size(), 0);
-        auto wiersz2 = wejscie[(wejscie.size() / 2)];
+        auto wiersz2 = wejsciePosortowane[(wejsciePosortowane.size() / 2)];
         transform(wiersz1.begin(), wiersz1.end(), wiersz2.begin(), mediany.begin(),
                   [](double a, double b)
         {
@@ -33,8 +56,6 @@ std::vector<double> Algorytmy::mediany(const std::vector<std::vector<double>> &w
     }
     return mediany;
 }
-
-
 
 std::vector<double> Algorytmy::odchyleniaStandardowe(const std::vector<std::vector<double> > &wejscie, const std::vector<double> &srednie)
 {
