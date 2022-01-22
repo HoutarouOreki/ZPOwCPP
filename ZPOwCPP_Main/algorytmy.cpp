@@ -1,7 +1,7 @@
 #include "algorytmy.h"
 #include <algorithm>
 #include <string>
-#include <math.h>
+#include <cmath>
 
 std::vector<double> Algorytmy::srednie(const std::vector<double> &sumy, const int iloscWierszy)
 {
@@ -18,7 +18,7 @@ std::vector<std::vector<double>> transponuj(const std::vector<std::vector<double
     std::vector<std::vector<double>> wyjscie(wejscie[0].size());
     for (unsigned int nrWierszu = 0; nrWierszu < wejscie.size(); nrWierszu++)
     {
-        auto wiersz = wejscie[nrWierszu];
+        auto &wiersz = wejscie[nrWierszu];
         for (unsigned int nrKolumny = 0; nrKolumny < wiersz.size(); nrKolumny++)
         {
             wyjscie[nrKolumny].push_back(wiersz[nrKolumny]);
@@ -45,9 +45,9 @@ std::vector<double> Algorytmy::mediany(const std::vector<std::vector<double>> &w
     }
     else
     {
-        auto wiersz1 = wejsciePosortowane[(wejsciePosortowane.size() / 2) - 1];
+        auto &wiersz1 = wejsciePosortowane[(wejsciePosortowane.size() / 2) - 1];
         mediany.resize(wiersz1.size(), 0);
-        auto wiersz2 = wejsciePosortowane[(wejsciePosortowane.size() / 2)];
+        auto &wiersz2 = wejsciePosortowane[(wejsciePosortowane.size() / 2)];
         transform(wiersz1.begin(), wiersz1.end(), wiersz2.begin(), mediany.begin(),
                   [](double a, double b)
         {
@@ -63,7 +63,7 @@ std::vector<double> Algorytmy::odchyleniaStandardowe(const std::vector<std::vect
     sumy.resize(srednie.size(), 0);
     for (unsigned int nrWiersza = 0; nrWiersza < wejscie.size(); nrWiersza++)
     {
-        auto wiersz = wejscie[nrWiersza];
+        auto &wiersz = wejscie[nrWiersza];
         for (unsigned int nrKolumny = 0; nrKolumny < wiersz.size(); nrKolumny++)
         {
             auto nawias = wiersz[nrKolumny] - srednie[nrKolumny];

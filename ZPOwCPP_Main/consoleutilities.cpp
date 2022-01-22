@@ -1,29 +1,6 @@
 #include "consoleutilities.h"
 #include <iostream>
-
-int consoleUtilities::readInt(const std::string& promptText)
-{
-    std::string rawInput;
-    int input;
-    while (true) {
-        if (promptText.length() > 0) {
-            std::cout << promptText << std::endl;
-        }
-        std::cout << ">";
-        std::cin >> rawInput;
-        try {
-            input = stoi(rawInput);
-        } catch (const std::invalid_argument&) {
-            std::cout << "The provided input is not a valid integer." << std::endl;
-            continue;
-        } catch (const std::out_of_range&) {
-            std::cout << "The provided input is not a valid integer or it is too big." << std::endl;
-            continue;
-        }
-
-        return input;
-    }
-}
+#include <cwctype>
 
 std::string consoleUtilities::readLine(const std::string& promptText)
 {
@@ -39,9 +16,9 @@ std::string consoleUtilities::readLine(const std::string& promptText)
 
 int consoleUtilities::readIntMinMax(const int &min, const int &max, const std::string &promptText)
 {
-    int value;
+    int value = 0;
     do {
-        value = readInt(promptText);
+        value = readNumber<int>(promptText);
         if (value < min || value > max) {
             std::cout << "The value has to be inside the range <"
                       << min << ", " << max << ">." << std::endl;
@@ -53,6 +30,11 @@ int consoleUtilities::readIntMinMax(const int &min, const int &max, const std::s
 std::string consoleUtilities::subOrOverString(const double d, const unsigned int n)
 {
     auto s = std::to_string(d);
+    return subOrOverString(s, n);
+}
+
+std::string consoleUtilities::subOrOverString(const std::string s, const unsigned int n)
+{
     if (s.size() == n)
     {
         return s;

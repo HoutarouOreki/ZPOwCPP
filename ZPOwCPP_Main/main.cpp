@@ -7,7 +7,7 @@ int main()
 
     Menu menu("Wybierz odpowiednia funkcje:");
     menu.addOption("Wczytaj plik do pamieci",
-                   [&wierszeKomorek]() {zadania::wczytajPlik(wierszeKomorek);});
+                   [&wierszeKomorek]() {zadania::wczytajTabelaCsv(wierszeKomorek);});
     menu.addOption("Oblicz parametry statystyczne",
                    [&wierszeKomorek]() {zadania::parametryStatystyczne(wierszeKomorek);});
     menu.addOption("Znalezienie i wyswietlenie wierszy, "

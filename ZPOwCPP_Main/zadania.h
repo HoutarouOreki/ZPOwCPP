@@ -12,7 +12,7 @@
 namespace zadania
 {
     /// \brief Punkt 1
-    void wczytajPlik(std::vector<std::vector<std::string>> &wierszeKomorek);
+    void wczytajTabelaCsv(std::vector<std::vector<std::string>> &wierszeKomorek);
 
     /// \brief Punkt 2
     void parametryStatystyczne(const std::vector<std::vector<std::string>> &wierszeKomorek);

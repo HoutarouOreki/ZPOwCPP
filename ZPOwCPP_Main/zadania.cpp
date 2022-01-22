@@ -1,6 +1,17 @@
 #include "zadania.h"
+#include <functional>
 
-void zadania::wczytajPlik(std::vector<std::vector<std::string> > &wierszeKomorek)
+bool sprawdzWczytanieWierszy(const std::vector<std::vector<std::string>> &wierszeKomorek)
+{
+    if (wierszeKomorek.empty())
+    {
+        std::cout << "Nie wczytano danych." << std::endl;
+        return false;
+    }
+    return true;
+}
+
+void zadania::wczytajTabelaCsv(std::vector<std::vector<std::string> > &wierszeKomorek)
 {
     wierszeKomorek.clear();
 
@@ -36,6 +47,8 @@ void zadania::wczytajPlik(std::vector<std::vector<std::string> > &wierszeKomorek
 
 void zadania::parametryStatystyczne(const std::vector<std::vector<std::string> > &wierszeKomorek)
 {
+    if (!sprawdzWczytanieWierszy(wierszeKomorek)) return;
+
     const int iloscKolumn = 6;
 
     std::vector<std::vector<double>> wierszeKomorekDouble;
@@ -70,7 +83,7 @@ void zadania::parametryStatystyczne(const std::vector<std::vector<std::string> >
     {
         std::string paddingSpaces = std::string(std::max((int)(8 - naglowki[nrKolumny].size()), 0), ' ');
         std::cout << paddingSpaces << naglowki[nrKolumny] << " | "
-                  << (consoleUtilities::subOrOverString(srednie[nrKolumny], 9)) << " | "
+                  << consoleUtilities::subOrOverString(srednie[nrKolumny], 9) << " | "
                   << consoleUtilities::subOrOverString(mediany[nrKolumny], 9) << " | "
                   << consoleUtilities::subOrOverString(odchyleniaStandardowe[nrKolumny], 9)
                   << std::endl;
@@ -80,10 +93,61 @@ void zadania::parametryStatystyczne(const std::vector<std::vector<std::string> >
 
 void zadania::odbiegajaceZ2(const std::vector<std::vector<std::string> > &wierszeKomorek)
 {
+    if (!sprawdzWczytanieWierszy(wierszeKomorek)) return;
 
+    const int odrzucanePraweKolumny = 3;
+
+    auto kolZ2 = [&wierszeKomorek](unsigned int indeks)
+    {
+        return std::stod(wierszeKomorek[indeks][5]);
+    };
+
+    double suma = 0;
+    double min, max;
+    min = max = kolZ2(1);
+    for (unsigned int i = 1; i < wierszeKomorek.size(); i++)
+    {
+        auto v = kolZ2(i);
+        suma += v;
+        min = std::min(min, v);
+        max = std::max(max, v);
+    }
+    auto srednia = suma / (wierszeKomorek.size() - 1);
+
+    double maxRoznica = consoleUtilities::readNumber<double>("Podaj odleglosc od sredniej kolumny Z2, znalezione zostana wiersze spoza tego promienia\n"
+            "avg=" + std::to_string(srednia) + ", max=" + std::to_string(max) + ", min=" + std::to_string(min));
+
+    auto czyOdbiega = [srednia, maxRoznica](const double wartosc)
+    {
+        return wartosc < (srednia - maxRoznica) || wartosc > (srednia + maxRoznica);
+    };
+
+    const std::vector<unsigned short> szerokosciKolumn {8, 8, 8, 8, 8, 8, 9, 9, 25};
+
+    std::cout << "    #|";
+    for (unsigned int i = 0; i < wierszeKomorek[0].size() - 1 - odrzucanePraweKolumny; i++)
+    {
+        std::cout << consoleUtilities::subOrOverString(wierszeKomorek[0][i], szerokosciKolumn[i]) << "|";
+    }
+    std::cout << consoleUtilities::subOrOverString(wierszeKomorek[0][8], szerokosciKolumn[8]) << std::endl;
+
+    for (unsigned int i = 1; i < wierszeKomorek.size(); i++)
+    {
+        if (czyOdbiega(kolZ2(i)))
+        {
+            std::cout << consoleUtilities::subOrOverString(std::to_string(i), 5) << "|";
+
+            auto wiersz = wierszeKomorek[i];
+            for (unsigned int j = 0; j < wiersz.size() - 1 - odrzucanePraweKolumny; j++)
+            {
+                std::cout << consoleUtilities::subOrOverString(wiersz[j], szerokosciKolumn[j]) << "|";
+            }
+            std::cout << consoleUtilities::subOrOverString(wiersz[8], szerokosciKolumn[8]) << std::endl;
+        }
+    }
 }
 
 void zadania::korelacjaKrzyzowa(const std::vector<std::vector<std::string> > &wierszeKomorek)
 {
-
+    if (!sprawdzWczytanieWierszy(wierszeKomorek)) return;
 }
