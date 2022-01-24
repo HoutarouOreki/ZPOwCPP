@@ -59,8 +59,7 @@ std::vector<double> Algorytmy::mediany(const std::vector<std::vector<double>> &w
 
 std::vector<double> Algorytmy::odchyleniaStandardowe(const std::vector<std::vector<double> > &wejscie, const std::vector<double> &srednie)
 {
-    std::vector<double> sumy;
-    sumy.resize(srednie.size(), 0);
+    std::vector<double> sumy(10);
     for (unsigned int nrWiersza = 0; nrWiersza < wejscie.size(); nrWiersza++)
     {
         auto &wiersz = wejscie[nrWiersza];
@@ -79,4 +78,39 @@ std::vector<double> Algorytmy::odchyleniaStandardowe(const std::vector<std::vect
     }
 
     return odchyleniaStandardowe;
+}
+
+double srednia(const std::vector<double> &x)
+{
+    double suma = 0;
+    for (auto &a : x)
+    {
+        suma += a;
+    }
+    return suma / x.size();
+}
+
+double kowariancja(const std::vector<double> &x, const std::vector<double> &y, const double xSrednia, const double ySrednia)
+{
+    double suma = 0;
+    for (unsigned int i = 0; i < x.size(); i++)
+    {
+        suma += (x[i] - xSrednia) * (y[i] - ySrednia);
+    }
+    return suma / (x.size() - 1);
+}
+
+double Algorytmy::korelacjaKrzyzowa(const std::vector<double> &x, const std::vector<double> &y)
+{
+    // algorytm z http://www.softwareandfinance.com/CPP/Covariance_Correlation.html
+
+    double xSrednia = srednia(x);
+    double ySrednia = srednia(y);
+
+    double kow = kowariancja(x, y, xSrednia, ySrednia);
+    std::vector<double> odchylenia = odchyleniaStandardowe(transponuj(std::vector<std::vector<double>>{x, y}), std::vector<double>{xSrednia, ySrednia});
+    double xStdDev = odchylenia[0];
+    double yStdDev = odchylenia[1];
+
+    return kow / (xStdDev * yStdDev);
 }

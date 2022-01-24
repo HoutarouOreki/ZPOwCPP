@@ -68,3 +68,27 @@ TEST(AlgorytmyTests, odchyleniaStandardowe)
         EXPECT_NEAR(oczekiwaneOdchyleniaKolumn[i], obliczoneOdchyleniaKolumn[i], 0.001);
     }
 }
+
+TEST(AlgorytmyTests, korelacja1)
+{
+    std::vector<double> x{0, 1, 2};
+    std::vector<double> y{0, 0.6, 1.2};
+
+    EXPECT_NEAR(Algorytmy::korelacjaKrzyzowa(x, y), 1, 0.001);
+}
+
+TEST(AlgorytmyTests, korelacja2)
+{
+    std::vector<double> x{0, 1, 2};
+    std::vector<double> y{2, 1, 0};
+
+    EXPECT_NEAR(Algorytmy::korelacjaKrzyzowa(x, y), -1, 0.001);
+}
+
+TEST(AlgorytmyTests, korelacja3)
+{
+    std::vector<double> x{0.01328, 0.00449, 0.01035, 0.00449, 0.01133, 0.00547, 0.0123, 0.00547, 0.01035, -0.00625};
+    std::vector<double> y{-0.0165, -0.00381, -0.01455, -0.00771, -0.01846, -0.00869, -0.01553, -0.00576, -0.02041, -0.00869};
+
+    EXPECT_NEAR(Algorytmy::korelacjaKrzyzowa(x, y), -0.6721325752, 0.001);
+}

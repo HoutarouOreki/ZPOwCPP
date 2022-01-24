@@ -147,7 +147,93 @@ void zadania::odbiegajaceZ2(const std::vector<std::vector<std::string> > &wiersz
     }
 }
 
+std::vector<double> wczytajWierszowyPlik()
+{
+    std::vector<double> wiersze;
+
+    std::string sciezka;
+    std::ifstream plikReader;
+    while (true)
+    {
+        sciezka = consoleUtilities::readLine("Podaj sciezke do pliku "
+                                             "z 10 liczbami, kazda w innym wierszu.");
+        plikReader = std::ifstream(sciezka);
+
+        if (!plikReader.is_open())
+        {
+            std::cout << "Nie mozna odczytac pliku." << std::endl;
+            continue;
+        }
+
+        break;
+    }
+
+    while (!plikReader.eof())
+    {
+        std::string linia;
+        getline(plikReader, linia);
+        if (linia.length() != 0)
+        {
+            wiersze.push_back(std::stod(linia));
+        }
+    }
+
+    return wiersze;
+}
+
 void zadania::korelacjaKrzyzowa(const std::vector<std::vector<std::string> > &wierszeKomorek)
 {
     if (!sprawdzWczytanieWierszy(wierszeKomorek)) return;
+
+    if (wierszeKomorek.size() < 11)
+    {
+        std::cout << "Wczytane dane maja mniej niz 10 wierszy liczbowych." << std::endl
+                  << "Nie mozna przejsc dalej." << std::endl;
+    }
+
+    std::cout << "Wybierz indeks wiersza dla korelacji krzyzowej.\n"
+              << "Wziete zostana ten wiersz i 9 kolejnych.\n"
+              << "Wiersz o indeksie 1 to pierwszy wiersz z wartosciami liczbowymi."
+              << std::endl;
+    int wybranyWiersz = consoleUtilities::readIntMinMax(1, wierszeKomorek.size() - 10);
+
+    std::cout << "Wybierz kolumne:\n"
+              << "0 = X\n"
+              << "1 = Y\n"
+              << "2 = Z\n"
+              << "3 = N\n"
+              << "4 = E\n"
+              << "5 = Z2" << std::endl;
+    int wybranaKolumna = consoleUtilities::readIntMinMax(0, 5);
+
+    std::vector<double> x;
+    std::cout << "Wybrane wartosci x: ";
+    for (int i = wybranyWiersz; i < wybranyWiersz + 10; i++)
+    {
+        x.emplace_back(std::stod(wierszeKomorek[i][wybranaKolumna]));
+        std::cout << x.at(i - wybranyWiersz) << " ";
+    }
+    std::cout << std::endl;
+
+    std::vector<double> y;
+    while (true)
+    {
+        y = wczytajWierszowyPlik();
+
+        if (y.size() != 10)
+        {
+            std::cout << "Plik ma " << y.size() << " wierszy, zamiast 10. Sprobuj ponownie." << std::endl;
+            continue;
+        }
+
+        break;
+    }
+    std::cout << "Wybrane wartosci y: ";
+    for (auto &yi : y)
+    {
+        std::cout << yi << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "Wspolczynnik korelacji krzyzowej: " << Algorytmy::korelacjaKrzyzowa(x, y) << std::endl;
 }
