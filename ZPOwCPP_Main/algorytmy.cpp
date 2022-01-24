@@ -100,7 +100,7 @@ double kowariancja(const std::vector<double> &x, const std::vector<double> &y, c
     return suma / (x.size() - 1);
 }
 
-double Algorytmy::korelacjaKrzyzowa(const std::vector<double> &x, const std::vector<double> &y)
+double Algorytmy::wspolczynnikKorelacjiKrzyzowej(const std::vector<double> &x, const std::vector<double> &y)
 {
     // algorytm z http://www.softwareandfinance.com/CPP/Covariance_Correlation.html
 

@@ -235,5 +235,5 @@ void zadania::korelacjaKrzyzowa(const std::vector<std::vector<std::string> > &wi
     }
     std::cout << std::endl;
 
-    std::cout << "Wspolczynnik korelacji krzyzowej: " << Algorytmy::korelacjaKrzyzowa(x, y) << std::endl;
+    std::cout << "Wspolczynnik korelacji krzyzowej: " << Algorytmy::wspolczynnikKorelacjiKrzyzowej(x, y) << std::endl;
 }
