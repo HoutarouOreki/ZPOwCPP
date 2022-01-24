@@ -20,7 +20,7 @@ int consoleUtilities::readIntMinMax(const int &min, const int &max, const std::s
     do {
         value = readNumber<int>(promptText);
         if (value < min || value > max) {
-            std::cout << "The value has to be inside the range <"
+            std::cout << "Wpisz wartosc z przedzialu <"
                       << min << ", " << max << ">." << std::endl;
         }
     } while (value < min || value > max);
